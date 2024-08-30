@@ -1,132 +1,32 @@
-//variaveis da bolinha veyr :3
-let xBolinha = 290;
-let yBolinha = 190;
-let diametro = 20;
-let raio = diametro / 2 ;
+let cor;
+let circuloX; // horizontal
+let circuloY; // vertical
 
-//velocidade da bolinha UwU
-let velocidadeXBolinha = 6;
-let velocidadeYBolinha = 6;
-
-//variaveis da raquete TwT
-let xRaquete = 5
-let yRaquete = 150
-let raqueteComprimento = 10;
-let raqueteAltura = 90;
-
-//variáveis do oponente ÙnÚ
-let xRaqueteOponente = 585;
-let yRaqueteOponente = 150;
-let velocidadeYOponente;
-
-let colidiu = false;
-    
-//placar do jogo veyr >^^<
-let meusPontos = 0;
-let pontosOponente = 0;
 function setup() {
-  createCanvas(600, 400);
+  createCanvas(400, 400);
+  background(color(100, 0 , 0));
+  cor = color(random(0, 255), random(0, 255), random(0, 255));
+  
+  circuloX = [0, 0, 0];
+  circuloY = [random(height), random(height), random(height)];
 }
 
 function draw() {
-  background(0);
-  mostraBolinha();
-  movimentaBolinha();
-  verificaColisaoBorda();
-  mostraRaquete(xRaquete, yRaquete);
-  movimentaMinhaRaquete();
-  //verificaColisaoRaquete();
-  verificaColisaoRaquete(xRaquete, yRaquete);
-  mostraRaquete(xRaqueteOponente, yRaqueteOponente);
-  movimentaRaqueteOponente();
-  verificaColisaoRaquete(xRaqueteOponente, yRaqueteOponente);
-  incluiPlacar();
-  marcaPonto();
-}
-
-function mostraBolinha(){
-  circle(xBolinha, yBolinha, diametro)
-}
   
-
-
-function movimentaBolinha(){
-  xBolinha += velocidadeXBolinha;
-  yBolinha += velocidadeYBolinha;
-}
-
-function verificaColisaoBorda(){
+  fill(cor);green
   
-  if (xBolinha + raio> width ||
-      xBolinha - raio< 0){
-    velocidadeXBolinha *= -1;
+  for(let contador in circuloX) {
+    circle(circuloX[contador], circuloY[contador], 50);    
+    circuloX[contador]+= random(0,3);
+    circuloY[contador]+= random(-3,3); 
+    
+    if(circuloX[contador] >= width){
+      circuloX[contador] = 0;
+      circuloY[contador] = random(height);
+    }
   }
-  if (yBolinha + raio> height  ||
-     yBolinha - raio< 0){
-    velocidadeYBolinha *= -1;
-  }
-}
-
-function mostraRaquete(x, y){
- rect(x, y, raqueteComprimento, 
-       raqueteAltura);
-}
-
-function movimentaMinhaRaquete(){
-  if (keyIsDown(UP_ARROW)){
-    yRaquete -= 10;
-  }
-   if (keyIsDown(DOWN_ARROW)){
-    yRaquete += 10;
+  
+  if(mouseIsPressed){
+    cor = color(random(0, 255), random(0, 255), random(0, 255), random(0, 100));
   }
 }
-
-function verificaColisaoRaquete(){
-  if (xBolinha  - raio < xRaquete + raqueteComprimento 
-&& yBolinha - raio < yRaquete + raqueteAltura && yBolinha + raio > yRaquete){
-    velocidadeXBolinha *= -1;
-  }
-}
-
-function verificaColisaoRaquete(x, y){
-  colidiu =
-  collideRectCircle(x, y, raqueteComprimento, raqueteAltura, xBolinha, yBolinha, raio);
-  if (colidiu){
-    velocidadeXBolinha *= -1;
-  }
-
-}
-
-function movimentaRaqueteOponente(){
-  if (keyIsDown(87)){
-    yRaqueteOponente -= 10;
-  }
-   if (keyIsDown(83)){
-    yRaqueteOponente += 10;
-  }
-}
-
-function incluiPlacar(){
-  stroke(255);
-  textAlign(CENTER);
-  textSize(20);
-  fill(color(255,228,225));
-  rect(150, 10, 40, 20);
-  fill(0);
-  text(meusPontos, 170, 26);
-  fill(color(255,228,225));
-  rect(350, 10, 40, 20);
-  fill(0);
-  text(pontosOponente, 370, 26);
-}
-
-function marcaPonto(){
-  if (xBolinha > 590){
-    meusPontos += 1;
-  }
-  if (xBolinha < 10){
-    pontosOponente += 1;
-  }
-}
-
-//oi meus amores n consegui colocar o som ;-;
